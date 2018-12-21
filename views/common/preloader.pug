@@ -1,0 +1,11 @@
+.preloader
+  .preloader__bg
+    +image("bg/preloader_bg.jpg", "preloader", "preloader__image")
+    
+    .preloader__circles
+      svg(viewBox="0 0 144 144" width="144px" height="144px" ).preloader__circles_svg  
+        circle(cx="72" cy="72" r="70"  opacity="0.4").preloader_circle_outside
+        circle(cx="72" cy="72" r="55"  opacity="0.7").preloader_circle_middle
+        circle(cx="72" cy="72" r="40"  ).preloader_circle_inside
+
+    span.preloader__text 100
