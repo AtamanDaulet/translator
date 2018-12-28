@@ -1,0 +1,135 @@
+a 
+  color: $white
+  text-decoration: none
+  
+.header 
+  max-width: 100%
+  height: 100vh
+  position: relative
+  & .header-bg
+    position: absolute
+    top: 0
+    left: 0
+    min-width: 100%
+    height: 100%
+    background-position: center center
+    background-size: cover
+    z-index: -10
+    & .header-menu__logo  
+      width: 180px
+      height: 105px
+      & .header-menu__logo-png
+        padding-top: 20px
+
+.container
+  padding-top: 20px
+  display: flex
+  justify-content: space-between
+
+.header-menu
+  display: flex
+  flex-flow: column nowrap
+  justify-content: space-around
+  order: 1
+  font-weight: bold
+  .header-menu__contacts
+    display: flex
+    flex-flow: row nowrap
+    justify-content: flex-end
+    align-items: center
+    @include tablets 
+      flex-flow: column nowrap
+      justify-content: center
+      align-items: flex-end
+      margin-bottom: 20px
+    & .contact__phone-svg
+      margin-right: 7px
+      width: 20px
+      height: 15px
+      fill: $white
+      @include tablets 
+        flex-direction:
+    & .contact__phone
+      margin-right: 35px
+      @include tablets 
+        margin-right: 0px
+    & .contact__mail-svg
+      margin-right: 10px
+      width: 20px
+      height: 15px
+      fill: $white
+    & .contact__mail
+
+.header-menu__nav
+  display: flex
+  flex-flow: row nowrap
+  justify-content: flex-end
+  align-items: center
+  @include tablets
+    display: flex
+    flex-flow: column nowrap
+    align-items: flex-end
+  & .menu__hamburger
+    display: none
+    position: relative
+    width: 40px
+    height: 24px  
+    cursor: pointer
+    @include tablets 
+      display: block  
+      margin-bottom: 15px
+      
+    & span
+      display: block
+      position: absolute
+      width: 40px
+      height: 4px
+      border-radius: 4px
+      background-color: $white
+    & span:nth-of-type(1)
+      top: 0px
+      transition: transform .275s cubic-bezier(.86, -.55, .265, 1.55)
+    & span:nth-of-type(2)
+      top: 10px
+      opacity: 1 
+      transform: rotate(0)
+      transition: all .275s cubic-bezier(.86, -.55, .265, 1.55)
+    & span:nth-of-type(3)
+      top: 20px
+      transition: transform .275s cubic-bezier(.86, -.55, .265, 1.55)
+  
+  & .menu__hamburger.open span:nth-of-type(1)
+    transform: translate3d(0,10px, 0) rotate(135deg)
+    transition-delay: 75ms
+    transition: transform .275s cubic-bezier(.86, -.55, .265, 1.55)        
+  
+  & .menu__hamburger.open span:nth-of-type(2)   
+    opacity: 0 
+    transform: rotate(135deg)
+    transition: all .275s ease        
+  
+  & .menu__hamburger.open span:nth-of-type(3)
+    transform: translate3d(0,-10px, 0) rotate(-135deg)
+    transition-delay: 75ms
+    transition: transform .275s cubic-bezier(.86, -.55, .265, 1.55)        
+
+  .menu-nav__list
+    display: flex
+    order: 1
+    justify-content: flex-end
+    @include tablets 
+      flex-flow: column nowrap
+      align-items: flex-end
+      
+    
+    & .menu-nav__item  
+      text-transform: uppercase
+      margin-right: 20px
+      @include tablets 
+        margin: 0
+        margin-bottom: 10px
+    & .menu-nav__item:last-of-type
+      margin-right: 0
+
+  .menu-nav__hide
+    display: none

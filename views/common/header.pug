@@ -1,0 +1,28 @@
+header.header
+  +image("bg/header.jpg", "header-bg", "header-bg")        
+  .container
+    a(href="#").header-menu__logo
+      +image("logo/logo.png", "logo", "header-menu__logo-png")      
+    nav.header-menu 
+        .header-menu__contacts
+          .header-menu__phone
+            +icon("phone", "contact__phone-svg")
+            a(href="tel:+77071930823").contact__phone +7-707-193-0823
+          .header-menu__mail  
+            +icon("envelope", "contact__mail-svg")
+            a(href="mailto:").contact__mail lunnoesiyanie@mail.ru
+            
+        .header-menu__nav
+          .menu__hamburger#js-menu__hamburger
+            span
+            span
+            span      
+          ul.menu-nav__list#js-menu-nav__list
+            li.menu-nav__item.active
+              a(href="#").nav-link главная 
+            li.menu-nav__item
+              a(href="#").nav-link услуги
+            li.menu-nav__item
+              a(href="#").nav-link цены
+            li.menu-nav__item
+              a(href="#").nav-link контакты

@@ -15,185 +15,215 @@ const fs = require("fs");
 
 // стили
 gulp.task("styles", () => {
-  return gulp
-    .src(`${config.SRC_DIR}/styles/main.scss`)
-    .pipe($gp.sourcemaps.init())
-    .pipe($gp.plumber())
-    .pipe($gp.sassGlob())
-    .pipe($gp.sourcemaps.init())
-    .pipe(
-      $gp.sass({
-        outputStyle: "compressed",
-        importer: moduleImporter()
-      })
-    )
-    .pipe(
-      $gp.autoprefixer({
-        browsers: ["last 2 versions"],
-        cascade: false
-      })
-    )
-    .pipe($gp.if(env === "development", $gp.sourcemaps.write()))
-    .pipe($gp.rename("main.min.css"))
-    .pipe(gulp.dest(`${config.DIST_DIR}/styles/`))
-    .pipe(reload({ stream: true }));
+    return gulp
+        .src(`${config.SRC_DIR}/styles/main.scss`)
+        .pipe($gp.sourcemaps.init())
+        .pipe($gp.plumber())
+        .pipe($gp.sassGlob())
+        .pipe($gp.sourcemaps.init())
+        .pipe(
+            $gp.sass({
+                outputStyle: "compressed",
+                importer: moduleImporter()
+            })
+        )
+        .pipe(
+            $gp.autoprefixer({
+                browsers: ["last 2 versions"],
+                cascade: false
+            })
+        )
+        .pipe($gp.if(env === "development", $gp.sourcemaps.write()))
+        .pipe($gp.rename("main.min.css"))
+        .pipe(gulp.dest(`${config.DIST_DIR}/styles/`))
+        .pipe(reload({ stream: true }));
 });
 
 // переносим шрифты
 gulp.task("fonts", () => {
-  return gulp
-    .src(`${config.SRC_DIR}/fonts/**`)
-    .pipe(gulp.dest(`${config.DIST_DIR}/fonts/`));
+    return gulp
+        .src(`${config.SRC_DIR}/fonts/**`)
+        .pipe(gulp.dest(`${config.DIST_DIR}/fonts/`));
 });
 
 // очистка
 gulp.task("clean", () => {
-  return del(config.ROOT_PATH);
+    return del(config.ROOT_PATH);
 });
 
 // собираем скрипты webpack
 gulp.task("scripts", () => {
-  return gulp
-    .src(`${config.SRC_DIR}/scripts/*.js`)
-    .pipe($gp.plumber())
-    .pipe(
-      $webpack(
-        {
-          ...require("./webpack.mpa.config"),
-          mode: env
-        },
-        webpack
-      )
-    )
-    .pipe(gulp.dest(`${config.DIST_DIR}/scripts`))
-    .pipe(reload({ stream: true }));
+    return gulp
+        .src(`${config.SRC_DIR}/scripts/*.js`)
+        .pipe($gp.plumber())
+        .pipe(
+            $webpack({
+                    ...require("./webpack.mpa.config"),
+                    mode: env
+                },
+                webpack
+            )
+        )
+        .pipe(gulp.dest(`${config.DIST_DIR}/scripts`))
+        .pipe(reload({ stream: true }));
 });
 
 // сервер node.js
 gulp.task("nodemon", done => {
-  let started = false;
-  $gp
-    .nodemon({
-      script: "server.js",
-      env: { NODE_ENV: "development" },
-      watch: "server.js"
-    })
-    .on("start", () => {
-      if (started) return;
-      done();
-      started = true;
-    });
+    let started = false;
+    $gp
+        .nodemon({
+            script: "server.js",
+            env: { NODE_ENV: "development" },
+            watch: "server.js"
+        })
+        .on("start", () => {
+            if (started) return;
+            done();
+            started = true;
+        });
 });
 
 //рендерим странички
 gulp.task("pug", () => {
-  return gulp
-    .src(`${config.VIEWS_DIR}/pages/*.pug`)
-    .pipe($gp.plumber())
-    .pipe(
-      $gp.pug({
-        locals: JSON.parse(fs.readFileSync("./data/content.json"))
-      })
-    )
-    .pipe(gulp.dest(`${config.DIST_DIR}`))
-    .pipe(reload({ stream: true }));
+    return gulp
+        .src(`${config.VIEWS_DIR}/pages/*.pug`)
+        .pipe($gp.plumber())
+        .pipe(
+            $gp.pug({
+                //locals: JSON.parse(fs.readFileSync("./data/content.json"))
+            })
+        )
+        .pipe(gulp.dest(`${config.DIST_DIR}`))
+        .pipe(reload({ stream: true }));
 });
 
 // dev сервер + livereload (встроенный)
 gulp.task("server", () => {
-  browserSync.init({
-    server: {
-      baseDir: `${config.DIST_DIR}`
-    },
-    open: false
-  });
+    browserSync.init({
+        server: {
+            baseDir: `${config.DIST_DIR}`
+        },
+        open: false
+    });
 });
 
 // спрайт иконок + инлайн svg
 gulp.task("svg", done => {
-  const prettySvgs = () => {
-    return gulp
-      .src(`${config.SRC_DIR}/images/icons/*.svg`)
-      .pipe(
-        $gp.svgmin({
-          js2svg: {
-            pretty: true
-          }
-        })
-      )
-      .pipe(
-        $gp.cheerio({
-          run($) {
-            $("[fill], [stroke], [style], [width], [height]")
-              .removeAttr("fill")
-              .removeAttr("stroke")
-              .removeAttr("style")
-              .removeAttr("width")
-              .removeAttr("height");
-          },
-          parserOptions: { xmlMode: true }
-        })
-      )
-      .pipe($gp.replace("&gt;", ">"));
-  };
+    const prettySvgs = () => {
+        return gulp
+            .src(`${config.SRC_DIR}/images/icons/*.svg`)
+            .pipe(
+                $gp.svgmin({
+                    js2svg: {
+                        pretty: true
+                    }
+                })
+            )
+            .pipe(
+                $gp.cheerio({
+                    run($) {
+                        $("[fill], [stroke], [style], [width], [height]")
+                            .removeAttr("fill")
+                            .removeAttr("stroke")
+                            .removeAttr("style")
+                            .removeAttr("width")
+                            .removeAttr("height");
+                    },
+                    parserOptions: { xmlMode: true }
+                })
+            )
+            .pipe($gp.replace("&gt;", ">"));
+    };
 
-  prettySvgs()
-    .pipe(
-      $gp.svgSprite({
-        mode: {
-          symbol: {
-            sprite: "../sprite.svg"
-          }
-        }
-      })
-    )
-    .pipe(gulp.dest(`${config.DIST_DIR}/images/icons`));
+    prettySvgs()
+        .pipe(
+            $gp.svgSprite({
+                mode: {
+                    symbol: {
+                        sprite: "../sprite.svg"
+                    }
+                }
+            })
+        )
+        .pipe(gulp.dest(`${config.DIST_DIR}/images/icons`));
 
-  // prettySvgs().pipe(
-  //   $gp.sassInlineSvg({
-  //     destDir: `${SRC_DIR}/styles/icons/`
-  //   })
-  //);
+    // prettySvgs().pipe(
+    //   $gp.sassInlineSvg({
+    //     destDir: `${SRC_DIR}/styles/icons/`
+    //   })
+    //);
 
-  done();
+    done();
 });
 
 // просто переносим картинки
 gulp.task("images", () => {
-  return gulp
-    .src([
-      `${config.SRC_DIR}/images/**/*.*`,
-      `!${config.SRC_DIR}/images/icons/*.*`
-    ])
-    .pipe(gulp.dest(`${config.DIST_DIR}/images/`));
+    return gulp
+        .src([
+            `${config.SRC_DIR}/images/**/*.*`,
+            `!${config.SRC_DIR}/images/icons/*.*`
+        ])
+        .pipe(gulp.dest(`${config.DIST_DIR}/images/`));
 });
+/**
+ * Copy all bootstrap and\or other framework or grid files to dist
+ */
+gulp.task('framework-prepare', function(done) {
+    // copy bootstrap styles file
+    gulp.src('node_modules/bootstrap/dist/css/bootstrap-grid.min.css')
+        .pipe(gulp.dest(`${config.DIST_DIR}/styles/`));
+    // copy fonts
+    // gulp.src('./node_modules/bootstrap/fonts/**/*')
+    //     .pipe(gulp.dest('./dist/fonts'));
 
+    // copy javascript file
+    // gulp.src('node_modules/bootstrap/dist/js/bootstrap.min.js')
+    //     .pipe(gulp.dest(`${config.DIST_DIR}/scripts/`));
+
+    // copy jquery
+    // gulp.src('node_modules/jquery/dist/jquery.min.js')
+    //     .pipe(gulp.dest(`${config.DIST_DIR}/scripts/`));
+
+    // // font awesome prepare
+    // gulp.src('./node_modules/font-awesome/css/font-awesome.min.css')
+    //     .pipe(gulp.dest('./dist/css'));
+    // gulp.src(('node_modules/font-awesome/fonts/**/*'))
+    //     .pipe(gulp.dest('./dist/fonts'));
+
+    // gulp.src('./src/js/popper.min.js')
+    //     .pipe(gulp.dest('./dist/js'));
+    done();
+});
 // галповский вотчер
 gulp.task("watch", () => {
-  gulp.watch(`${config.SRC_DIR}/styles/**/*.scss`, gulp.series("styles"));
-  gulp.watch(`${config.SRC_DIR}/images/**/*.*`, gulp.series("images"));
-  gulp.watch(`${config.SRC_DIR}/scripts/**/*.js`, gulp.series("scripts"));
-  gulp.watch(`${config.SRC_DIR}/fonts/*`, gulp.series("fonts"));
-  gulp.watch(`${config.VIEWS_DIR}/pages/*.pug`, gulp.series("pug"));
+    gulp.watch(`${config.SRC_DIR}/styles/**/*.scss`, gulp.series("styles"));
+    gulp.watch(`${config.SRC_DIR}/styles/**/*.sass`, gulp.series("styles"));
+    gulp.watch(`${config.SRC_DIR}/images/**/*.*`, gulp.series("images"));
+    gulp.watch(`${config.SRC_DIR}/scripts/**/*.js`, gulp.series("scripts"));
+    gulp.watch(`${config.SRC_DIR}/fonts/*`, gulp.series("fonts"));
+    gulp.watch(`${config.VIEWS_DIR}/**/*.pug`, gulp.series("pug"));
 });
 
 // GULP:DEV
 gulp.task(
-  "default",
-  gulp.series(
-    "clean",
-    "svg",
-    gulp.parallel("styles", "pug", "images", "fonts", "scripts"),
-    gulp.parallel("watch", "server")
-  )
+    "default",
+    gulp.series(
+        "clean",
+        "svg",
+        "framework-prepare",
+        gulp.parallel("styles", "pug", "images", "fonts", "scripts"),
+        gulp.parallel("watch", "server")
+    )
 );
 
 //GULP:build
 gulp.task(
-  "build",
-  gulp.series(
-    "clean",
-    "svg",
-    gulp.parallel("styles", "pug", "images", "fonts", "scripts")
-  )
+    "build",
+    gulp.series(
+        "clean",
+        "svg",
+        "framework-prepare",
+        gulp.parallel("styles", "pug", "images", "fonts", "scripts")
+    )
 );

@@ -1,0 +1,13 @@
+$white:#ffffff;
+$red: #fb5255;
+$black: #2d2e31;
+$grey: #aeaeae;
+$light-brown: #746c6b;
+$brown: #4e4d51;
+$text-color:#ffffff;
+// @import "normalize.css";
+@import "./layout/fonts.scss";
+@import "./layout/mixin_media.scss";
+@import "./layout/base.scss";
+@import "./blocks/index.scss";
+@import "./blocks/header.sass";

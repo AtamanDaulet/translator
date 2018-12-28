@@ -1,0 +1,113 @@
+body,
+html {
+    height: 100%;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.42;
+    color: $text-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @include roboto();
+    @include desktop-large {
+        font-size: 17px;
+    }
+    @include desktop {
+        font-size: 16px;
+    }
+    @include laptop {
+        font-size: 15px;
+    }
+    @include tablets {
+        font-size: 14px;
+    }
+    @include phones {
+        font-size: 14px;
+    }
+}
+
+.wrapper {
+    overflow: hidden;
+    min-height: 100%;
+    position: relative;
+}
+
+.footer-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.section {
+    min-height: 650px;
+    height: 100vh;
+}
+
+.wrapper-inner {
+    width: 1200px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+button[type="button"] {
+    cursor: pointer;
+}
+
+.text-block {
+    p {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+}
+
+.btn {
+    background: $red;
+    color: $white;
+}
+
+button,
+button:active,
+button:focus {
+    outline: none;
+}
+
+// @mixin desktop-large {
+//     @media (max-width: 1800px){
+//         @content;
+//       }
+//     }
+// @include desktop-large{
+//   font-size: 17px ;  } 
+// @include desktop{
+//   font-size: 16px ; } 
+// @include laptop {
+//   font-size: 15px ; } 
+// @include tablets{
+//   font-size: 14px ;}
+// @include phones{
+//   font-size: 13px ;}
