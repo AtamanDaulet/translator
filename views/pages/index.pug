@@ -1,59 +1,15 @@
 extends ../main.layout.pug
 
 block variables
-  - var title = "welcome" 
+  - var title = "translater" 
 block scripts
   script(src='./scripts/index.bundle.js')
 
 block content
   
-  section.section.section__welcome(style="background: url(./images/bg/hero.jpg) no-repeat")
-    .welcome
-      header.welcome__header  
-        button.btn_auth Log in
-      .welcome__scene
-        .welcome__card
-          .welcome__content.welcome__main.card__face_front 
-            +image("content/user.jpg", "user", "welcome__avatar")
-            h2.welcome__name #{name}
-            .welcome__title The personal site of the web developer
-            .welcome__social          
-              +iconLink( vkLink, "vk", "welcome__vk")
-              +iconLink( githubLink,"github", "welcome__github")
-              +iconLink( inLink, "in", "welcome__in")
-            .welcome__footer
-              a.welcome__link.btn-work(href= myWorks) My works
-              a.welcome__link.btn-about(href= aboutMe) About me
-              a.welcome__link.btn-blog(href= blog) Blog
-          .welcome__content.welcome__login.card__face_back
-            .login__title 
-              p Login
-            form(action="").login__form
-              .login__input
-                .login__input_log
-                  .login__icon_wrap
-                    +icon("login", "login-icon")
-                  input(type="text" placeholder="Login" aria-label="Login").login__input_place
-                .login__input_password
-                  .login__icon_wrap
-                    +icon("password", "password-icon")
-                  input(type="password" placeholder="Password" aria-label="Password").login__input_place
-              .login__check 
-              label.login__check_custom I'm real
-                input(type="checkbox", name="").checkbox_hide 
-                .checkbox_custom
-                  +icon("check", "check-icon")
-              .login__text Are you not a robot?
-              .login__radio 
-                label.login__radio_yes Yes
-                  input(type="radio", name="login__radio" value="Yes").checkbox_hide 
-                  .radio_custom 
-                label.login__radio_not Not sure
-                  input(type="radio", name="login__radio" value="Not sure").checkbox_hide 
-                  .radio_custom  
-            .welcome__footer
-              button.welcome__link.btn-main Main page
-              button(type="submit").welcome__link.btn-login Login
+  include ../common/hero
+  include ../common/services
+  
 
-      footer.footer-containe #{footer}
+
     

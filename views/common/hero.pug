@@ -1,22 +1,7 @@
-section.hero
-  .hero__triangle-border
-  .hero__parallax   
-    .wrapper-inner.wrapper-inner-relative
-      .hero__lists
-        +iconLink( vkLink, "vk", "hero__vk")
-        +iconLink( githubLink,"github", "hero__github")
-        +iconLink( inLink, "in", "hero__in")   
-      .hero__menu
-        .hamburger
-          +icon("hamburger", "hamburger_menu")
-      .hero__btn
-        .arrow__down
-          +icon("arrow_down", "arrow__down_pic")    
-      .hero__container
-        .user.parallax__base
-          .user__avatar 
-            +image("content/user.jpg", "user", "user__avatar_pic")
-          .user__info.parallax__title
-            .user__name #{name}
-            .user__desc The personal site of the web developer
-  
+section.hero    
+    .container.container-hero.js-hero
+      .hero__bg.js-hero__bg
+      .hero__content
+        .hero__title БЮРО ПЕРЕВОДОВ 
+        .hero__subtitle ДЛЯ ТЕХ, КТО ЦЕНИТ СКОРОСТЬ И КАЧЕСТВО
+        .hero__arrow-down

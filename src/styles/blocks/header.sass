@@ -21,7 +21,7 @@ a
       & .header-menu__logo-png
         padding-top: 20px
 
-.container
+.container-wrap
   padding-top: 20px
   display: flex
   justify-content: space-between
@@ -128,8 +128,13 @@ a
       @include tablets 
         margin: 0
         margin-bottom: 10px
+      &:hover  .nav-link
+        color: $red
     & .menu-nav__item:last-of-type
       margin-right: 0
-
+    & .active
+      border-bottom: 2px solid $white
+      &:hover
+        border-color: $red
   .menu-nav__hide
     display: none
